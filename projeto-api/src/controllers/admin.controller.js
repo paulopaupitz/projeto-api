@@ -1,6 +1,6 @@
 const Admin = require('../models/admin.model');
-const { readJSON, writeJSON } = require('../utils/jsonUtils'); // Supondo que essas funções estão em utils/jsonUtils.js
-const adminFilePath = '../data/admins.json'; // Certifique-se de que o caminho está correto
+const { readJSON, writeJSON } = require('../utils/jsonUtils'); 
+const adminFilePath = '../data/admins.json'; 
 
 const adminController = {
     criarAdmin: (req, res) => {
