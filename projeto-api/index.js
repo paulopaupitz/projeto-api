@@ -5,29 +5,35 @@ const app = express();
 // Importa os arquivos de rotas específicos
 const donoRoutes = require('./src/routes/donos.routes');
 const petRoutes = require('./src/routes/pets.routes');
+const adminRoutes = require('./src/routes/admin.routes');
+const authenticateAdmin = require('./src/middlewares/authenticateAdmin');
 
-// Middleware para permitir receber JSON no corpo da requisição
+
+
+
 app.use(express.json());
-
 // Configura as rotas
 app.use('/donos', donoRoutes); // Rotas para donos
 app.use('/pets', petRoutes);  // Rotas para pets
+app.use('/admin', authenticateAdmin, adminRoutes); //ademirs
 
-// Rota raiz para verificar se a API está rodando
+
+
+// roota raiz
 app.get('/', (req, res) => {
     res.send('API de Pets e Donos funcionando!');
 });
 
-// Configuração do tratamento de erros (opcional)
+// tratar erros
 app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.status(500).send('Algo deu errado!'); // Mensagem de erro padrão
+    res.status(500).send('Algo deu errado!');                   // erro
 });
 
-// Porta definida no arquivo .env, ou 3000 como fallback
-const PORT = process.env.PORT || 3000;
+
 
 // Inicia o servidor
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
 });
