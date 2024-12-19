@@ -3,15 +3,15 @@ const router = express.Router();
 const AdminController = require("../controllers/admin.controller");
 
 // Rota para criar um novo administrador
-router.post("/create", AdminController.criarAdmin);
+router.post("/", AdminController.criarAdmin);
 
 // Rota para excluir um usuário não administrador
-//router.delete("/delete-user/:id", AdminController.excluirUsuario);
+//router.delete("/:id", AdminController.excluirUsuario);
 
 // Rota para listar todos os administradores
-//router.get("/admins", AdminController.listarAdmins);
+//router.get("/", AdminController.listarAdmins);
 
 // Rota para listar todos os usuários
-//router.get("/users", AdminController.listarUsuarios);
+//router.get("/", AdminController.listarUsuarios);
 
 module.exports = router;
