@@ -103,8 +103,8 @@ exports.listarDonos = (req, res) => {
  *     parameters:
  *       - name: id
  *         in: path
- *         required: false
- *         description: ID do dono para ser criado
+ *         required: true
+ *         description: ID do dono buscado
  *         schema:
  *           type: int
  *     responses:
@@ -133,8 +133,8 @@ exports.buscarDonoPorId = (req, res) => {
  *     parameters:
  *       - name: id
  *         in: path
- *         required: false
- *         description: ID do dono para ser criado
+ *         required: true
+ *         description: ID do dono para ser atualizado
  *         schema:
  *           type: int
  *     responses:
@@ -145,7 +145,6 @@ exports.buscarDonoPorId = (req, res) => {
  *       400:
  *         description: Erro
  */
-// Controlador para buscar um dono por ID
 // Controlador para atualizar um dono
 exports.atualizarDono = (req, res) => {
   const donos = carregarDonos();
@@ -173,8 +172,8 @@ exports.atualizarDono = (req, res) => {
  *     parameters:
  *       - name: id
  *         in: path
- *         required: false
- *         description: ID do dono para ser criado
+ *         required: true
+ *         description: ID do dono para ser deletado
  *         schema:
  *           type: int
  *     responses:

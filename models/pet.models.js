@@ -1,10 +1,11 @@
 class Pet {
-  constructor(nome, especie, idade, donoId) {
+  constructor(nome, especie, idade, donoId, noPetshop) {
     this.id = null; // O ID será atribuído pelo controlador ao salvar
     this.nome = nome;
     this.especie = especie;
     this.idade = idade;
-    this.donoId = donoId; // Relacionamento com o Dono
+    this.donoId = donoId;
+    this.noPetshop = noPetshop;
   }
 
   static validarDados(dados) {
