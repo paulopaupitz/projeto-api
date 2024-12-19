@@ -1,10 +1,11 @@
 {
-  "name": "projeto-api-pets",
+  "name": "projeto-api",
   "version": "1.0.0",
-  "description": "-Possui gerenciamento de donos, pets e usuários (admin,user)",
+  "description": "O projeto web contemplado pela disciplina visa permitir que os alunos apliquem os conceitos e temas abordados em aula. O domínio do sistema a ser desenvolvido é de livre escolha de cada aluno, desde que atenda aos requisitos definidos a seguir. O projeto pode contemplar um trabalho de outra disciplina, o início de um trabalho de TCC ou algo pessoal, e pode ser desenvolvido preferencialmente em duplas (opcionalmente de modo individual). O projeto se trata da construção de uma API REST, com persistência em arquivos e tratamento de exceções. O sistema deve atender aos seguintes requisitos:",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
