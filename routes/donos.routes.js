@@ -1,15 +1,15 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const DonoController = require('../controllers/donos.controller');
+const DonoController = require("../controllers/donos.controller");
 
 // Rota para criar um novo dono
-router.post('/', DonoController.criarDono);
+router.post("/", DonoController.criarDono);
 // Rota para listar todos os donos
-router.get('/', DonoController.listarDonos);
+router.get("/", DonoController.listarDonos);
 // Rota para buscar um dono por ID
-router.get('/:id', DonoController.buscarDonoPorId);
+router.get("/:id", DonoController.buscarDonoPorId);
 // Rota para atualizar um dono
-router.put('/:id', DonoController.atualizarDono);
+router.put("/:id", DonoController.atualizarDono);
 // Rota para deletar um dono
-router.delete('/:id', DonoController.deletarDono);
+router.delete("/:id", DonoController.deletarDono);
 module.exports = router;

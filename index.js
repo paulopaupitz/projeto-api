@@ -27,11 +27,11 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: "http://localhost:3000", // Troque para a URL do seu servidor
+        url: "http://localhost:3000",
       },
     ],
   },
-  apis: ["./routes/*.js"], // Localização dos seus arquivos de rota
+  apis: ["./controllers/*.js"],
 };
 
 // Gerar a documentação com base nas opções

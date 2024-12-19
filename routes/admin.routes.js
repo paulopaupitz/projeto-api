@@ -5,25 +5,6 @@ const AdminController = require("../controllers/admin.controller");
 // Rota para criar um novo administrador
 router.post("/create", AdminController.criarAdmin);
 
-/**
- * @swagger
- * /delete-user/{id}:
- *   delete:
- *     summary: Exclui um usuário pelo ID.
- *     parameters:
- *       - name: id
- *         in: path
- *         required: true
- *         description: ID do usuário a ser excluído
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Usuário excluído com sucesso.
- *       404:
- *         description: Usuário não encontrado.
- */
-
 // Rota para excluir um usuário não administrador
 //router.delete("/delete-user/:id", AdminController.excluirUsuario);
 

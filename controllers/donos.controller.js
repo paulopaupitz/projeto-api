@@ -20,6 +20,42 @@ const salvarDonos = (dados) => {
   fs.writeFileSync(dbPath, dadosFormatados);
 };
 
+/**
+ * @swagger
+ * /donos:
+ *   post:
+ *     summary: Criar um novo dono
+ *     tags:
+ *       - Dono
+ *     requestBody:  # Descreve o corpo da requisição
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               id:
+ *                 type: integer
+ *                 description: ID do dono (opcional).
+ *                 example: 1
+ *               nome:
+ *                 type: string
+ *                 description: Nome do dono.
+ *                 example: "João Silva"
+ *               telefone:
+ *                 type: string
+ *                 description: Telefone do dono.
+ *                 example: "12345-6789"
+ *               endereco:
+ *                 type: string
+ *                 description: Endereço do dono.
+ *                 example: "Rua Exemplo, 123"
+ *     responses:
+ *       201:
+ *         description: Sucesso
+ *       400:
+ *         description: Erro
+ */
 // Controlador para criar um novo dono
 exports.criarDono = (req, res) => {
   const validacao = Dono.validarDados(req.body);
@@ -40,12 +76,43 @@ exports.criarDono = (req, res) => {
   res.status(201).json(novoDono);
 };
 
+/**
+ * @swagger
+ * /donos:
+ *   get:
+ *     summary: Listar todos os donos.
+ *     tags:
+ *       - Dono
+ *     responses:
+ *       200:
+ *         description: Sucesso
+ */
 // Controlador para listar todos os donos
 exports.listarDonos = (req, res) => {
   const donos = carregarDonos();
   res.status(200).json(donos);
 };
 
+/**
+ * @swagger
+ * /donos/{id}:
+ *   get:
+ *     summary: Buscar um dono por ID
+ *     tags:
+ *       - Dono
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: false
+ *         description: ID do dono para ser criado
+ *         schema:
+ *           type: int
+ *     responses:
+ *       200:
+ *         description: Sucesso
+ *       404:
+ *         description: Dono não encontrado
+ */
 // Controlador para buscar um dono por ID
 exports.buscarDonoPorId = (req, res) => {
   const donos = carregarDonos();
@@ -56,6 +123,29 @@ exports.buscarDonoPorId = (req, res) => {
   res.status(200).json(dono);
 };
 
+/**
+ * @swagger
+ * /donos/{id}:
+ *   put:
+ *     summary: Atualizar um dono pelo ID
+ *     tags:
+ *       - Dono
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: false
+ *         description: ID do dono para ser criado
+ *         schema:
+ *           type: int
+ *     responses:
+ *       200:
+ *         description: Sucesso
+ *       404:
+ *         description: Dono não encontrado
+ *       400:
+ *         description: Erro
+ */
+// Controlador para buscar um dono por ID
 // Controlador para atualizar um dono
 exports.atualizarDono = (req, res) => {
   const donos = carregarDonos();
@@ -73,6 +163,26 @@ exports.atualizarDono = (req, res) => {
   res.status(200).json(donoAtualizado);
 };
 
+/**
+ * @swagger
+ * /donos/{id}:
+ *   delete:
+ *     summary: Deletar um dono pelo ID
+ *     tags:
+ *       - Dono
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: false
+ *         description: ID do dono para ser criado
+ *         schema:
+ *           type: int
+ *     responses:
+ *       204:
+ *         description: Dono deletado
+ *       404:
+ *         description: Dono não encontrado
+ */
 // Controlador para deletar um dono
 exports.deletarDono = (req, res) => {
   const donos = carregarDonos();
