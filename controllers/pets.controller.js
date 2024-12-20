@@ -58,18 +58,20 @@ const salvarPets = (dados) => {
  */
 // Controlador para criar um novo pet
 exports.criarPet = (req, res) => {
+  const dado = req.body;
   const validacao = Pet.validarDados(req.body);
   if (!validacao.valido) {
     return res.status(400).json({ mensagem: validacao.mensagem });
   }
 
   const pets = carregarPets();
-  const novoPet = new Pet(
-    req.body.nome,
-    req.body.especie,
-    req.body.idade,
-    req.body.donoId
-  );
+  const novoPet = {
+    nome: dado.nome,
+    especie: dado.especie,
+    idade: dado.idade,
+    donoId: dado.donoId,
+    noPetshop: false,
+  };
   novoPet.id = pets.length > 0 ? pets[pets.length - 1].id + 1 : 1;
 
   pets.push(novoPet);

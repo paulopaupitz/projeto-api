@@ -12,6 +12,7 @@ const donoRoutes = require("./routes/donos.routes");
 const petRoutes = require("./routes/pets.routes");
 const adminRoutes = require("./routes/admin.routes");
 const authRoutes = require("./routes/auth.routes");
+const acoesRoutes = require("./routes/actionsPetshop.routes");
 const authenticateAdmin = require("./middlewares/authenticateAdmin");
 
 app.use(express.json());
@@ -20,6 +21,7 @@ app.use("/donos", donoRoutes); // Rotas para donos
 app.use("/pets", petRoutes); // Rotas para pets
 app.use("/admin", authenticateAdmin, adminRoutes); //admins
 app.use("/auth", authRoutes); //auth
+app.use("/actions", acoesRoutes); //actions
 
 // Configurações do Swagger
 const swaggerOptions = {

@@ -5,5 +5,21 @@
     "especie": "cachorro",
     "idade": 5,
     "donoId": 1
+  },
+  {
+    "nome": "Lulu",
+    "especie": "Cachorro",
+    "idade": 3,
+    "donoId": 123,
+    "noPetshop": false,
+    "id": 2
+  },
+  {
+    "nome": "Bob",
+    "especie": "Gato",
+    "idade": 6,
+    "donoId": 2,
+    "noPetshop": false,
+    "id": 3
   }
 ]

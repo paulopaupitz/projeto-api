@@ -34,10 +34,6 @@ const salvarDonos = (dados) => {
  *           schema:
  *             type: object
  *             properties:
- *               id:
- *                 type: integer
- *                 description: ID do dono (opcional).
- *                 example: 1
  *               nome:
  *                 type: string
  *                 description: Nome do dono.
@@ -58,17 +54,19 @@ const salvarDonos = (dados) => {
  */
 // Controlador para criar um novo dono
 exports.criarDono = (req, res) => {
+  const dado = req.body;
   const validacao = Dono.validarDados(req.body);
   if (!validacao.valido) {
     return res.status(400).json({ mensagem: validacao.mensagem });
   }
 
   const donos = carregarDonos();
-  const novoDono = new Dono(
-    req.body.nome,
-    req.body.telefone,
-    req.body.endereco
-  );
+  const novoDono = {
+    nome: dado.nome,
+    telefone: dado.telefone,
+    endereco: dado.endereco,
+    pendencias: 0,
+  };
   novoDono.id = donos.length > 0 ? donos[donos.length - 1].id + 1 : 1;
 
   donos.push(novoDono);

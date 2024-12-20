@@ -83,7 +83,7 @@ exports.criarUser = (req, res) => {
       return res.status(400).send("Usuario já existe.");
     }
 
-    // Criar novo Usuario
+    // Criar novo Usuario.
     const newAdmin = {
       id: Date.now(), // Gerar ID único
       username: dados.username,

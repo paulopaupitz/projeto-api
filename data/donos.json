@@ -3,12 +3,21 @@
     "id": 1,
     "nome": "Joana Maria",
     "telefone": "(43) 9 9999-9999",
-    "endereco": "Rua dos Amigos"
+    "endereco": "Rua dos Amigos",
+    "pendencias": 0
   },
   {
     "id": 2,
     "nome": "Joana Maria",
     "telefone": "(43) 9 9999-9999",
-    "endereco": "Rua dos Amigos"
+    "endereco": "Rua dos Amigos",
+    "pendencias": 160
+  },
+  {
+    "nome": "João Silva",
+    "telefone": "12345-6789",
+    "endereco": "Rua Exemplo, 123",
+    "pendencias": 0,
+    "id": 3
   }
 ]
