@@ -1,13 +1,26 @@
 [
   {
-    "id": 1734659485512,
-    "username": "username",
-    "password": "senha"
-  },
-  {
     "id": 1734661799034,
     "username": "usuario",
     "password": "123456",
     "admin": false
+  },
+  {
+    "id": 1734662241929,
+    "username": "user",
+    "password": "707070",
+    "admin": false
+  },
+  {
+    "id": 1734662778079,
+    "username": "username",
+    "password": "password",
+    "admin": true
+  },
+  {
+    "id": 1734662811633,
+    "username": "admin",
+    "password": "admin",
+    "admin": true
   }
 ]

@@ -3,7 +3,7 @@ const path = require("path");
 const AdminModel = require("../models/admin.model");
 const { readJSON, writeJSON } = require("../utils/jsonUtils");
 
-// Caminho do arquivo JSON onde os dados dos administradores serão armazenados
+// Caminho do arquivo JSON onde os dados dos usuarios serão armazenados
 const adminFilePath = path.join(__dirname, "../data/admins.json");
 
 // Função para carregar os dados do arquivo JSON
@@ -45,15 +45,15 @@ const salvarUsers = (dados) => {
  *                 example: "senha"
  *     responses:
  *       201:
- *         description: Administrador criado com sucesso.
+ *         description: Usuario criado com sucesso.
  *       501:
  *          description: Validação de dados não implementada no modelo.
  *       401:
  *          description: ERROR!
  *       400:
- *          description: Administrador já existe.
+ *          description: Usuariosjá existe.
  *       502:
- *          description: Erro ao criar administrador.
+ *          description: Erro ao criar Usuario.
  */
 // Criar um novo usuario
 exports.criarUser = (req, res) => {
@@ -74,16 +74,16 @@ exports.criarUser = (req, res) => {
       return res.status(401).send(validacao.mensagem);
     }
 
-    // Ler administradores existentes
+    // Ler Usuarios existentes
     const admins = readJSON(adminFilePath) || [];
     const adminExists = admins.find(
       (admin) => admin.username === dados.username
     );
     if (adminExists) {
-      return res.status(400).send("Administrador já existe.");
+      return res.status(400).send("Usuario já existe.");
     }
 
-    // Criar novo administrador
+    // Criar novo Usuario
     const newAdmin = {
       id: Date.now(), // Gerar ID único
       username: dados.username,
@@ -95,10 +95,10 @@ exports.criarUser = (req, res) => {
     // Salvar no arquivo
     writeJSON(adminFilePath, admins);
 
-    res.status(201).send("Administrador criado com sucesso.");
+    res.status(201).send("Usuario criado com sucesso.");
   } catch (error) {
     console.error(error);
-    res.status(502).send("Erro ao criar administrador.");
+    res.status(502).send("Erro ao criar Usuario.");
   }
 };
 
@@ -158,7 +158,7 @@ exports.atualizarUser = (req, res) => {
 
 /**
  * @swagger
- * /donos/{id}:
+ * /admin/{id}:
  *   delete:
  *     summary: Deletar um usuario pelo ID
  *     tags:
@@ -175,14 +175,88 @@ exports.atualizarUser = (req, res) => {
  *         description: Usuario deletado
  *       404:
  *         description: Usuario não encontrado
+ *       401:
+ *         description: Usuario não pode ser excluido por ser um admin
  */
 // Controlador para deletar um dono
 exports.deletarUser = (req, res) => {
-  const user = carregarUsers();
-  const novosUsers = user.filter((d) => d.id !== parseInt(req.params.id));
-  if (novosUsers.length === user.length) {
-    return res.status(404).json({ mensagem: "Usuario não encontrado" });
+  const users = carregarUsers(); // Carrega todos os usuários
+  const userId = parseInt(req.params.id); // Obtém o ID do usuário da rota
+
+  // Encontra o usuário pelo ID
+  const userEncontrado = users.find((u) => u.id === userId);
+
+  if (!userEncontrado) {
+    // Verifica se o usuário existe
+    return res.status(404).json({ mensagem: "Usuário não encontrado" });
   }
+
+  if (userEncontrado.admin === true) {
+    // Verifica se o usuário é administrador
+    return res
+      .status(401)
+      .json({ mensagem: "Usuário não pode ser excluído por ser um admin" });
+  }
+
+  // Filtra a lista de usuários removendo o usuário correspondente ao ID
+  const novosUsers = users.filter((u) => u.id !== userId);
+
+  // Salva a lista atualizada
   salvarUsers(novosUsers);
-  res.status(204).json({ mensagem: "Usuario deletado" });
+
+  // Retorna a resposta de exclusão bem-sucedida
+  res.status(204).json({ mensagem: "Usuário deletado" });
+};
+
+/**
+ * @swagger
+ * /admin/getAllUsers:
+ *   get:
+ *     summary: Listar todos os usuarios.
+ *     tags:
+ *       - Admin
+ *     responses:
+ *       200:
+ *         description: Sucesso
+ */
+// Controlador para listar todos os usuarios
+exports.listarAllUsers = (req, res) => {
+  const users = carregarUsers();
+  res.status(200).json(users);
+};
+
+/**
+ * @swagger
+ * /admin/getAdmins:
+ *   get:
+ *     summary: Listar todos os usuarios administradores.
+ *     tags:
+ *       - Admin
+ *     responses:
+ *       200:
+ *         description: Sucesso
+ */
+// Controlador para listar todos os usuários administradores
+exports.listarAdmins = (req, res) => {
+  const users = carregarUsers(); // Carrega todos os usuários
+  const admins = users.filter((user) => user.admin === true); // Filtra apenas os administradores
+  res.status(200).json(admins); // Retorna os administradores
+};
+
+/**
+ * @swagger
+ * /admin/getComuns:
+ *   get:
+ *     summary: Listar todos os usuarios comuns.
+ *     tags:
+ *       - Admin
+ *     responses:
+ *       200:
+ *         description: Sucesso
+ */
+// Controlador para listar todos os usuários comuns
+exports.listarComuns = (req, res) => {
+  const users = carregarUsers(); // Carrega todos os usuários
+  const admins = users.filter((user) => user.admin === false); // Filtra apenas os comuns
+  res.status(200).json(admins); // Retorna os comuns
 };

@@ -11,13 +11,13 @@ router.put("/:id", AdminController.atualizarUser);
 // Rota para deletar um usuario
 router.delete("/:id", AdminController.deletarUser);
 
-// Rota para excluir um usuário não administrador
-//router.delete("/:id", AdminController.excluirUsuario);
+// Rota para listar todos os usuarios
+router.get("/getAllUsers/", AdminController.listarAllUsers);
 
-// Rota para listar todos os administradores
-//router.get("/", AdminController.listarAdmins);
+// Rota para listar todos os usuarios administradores
+router.get("/getAdmins/", AdminController.listarAdmins);
 
-// Rota para listar todos os usuários
-//router.get("/", AdminController.listarUsuarios);
+// Rota para listar todos os usuarios comuns
+router.get("/getComuns/", AdminController.listarComuns);
 
 module.exports = router;
