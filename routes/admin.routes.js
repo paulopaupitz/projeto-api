@@ -20,4 +20,7 @@ router.get("/getAdmins/", AdminController.listarAdmins);
 // Rota para listar todos os usuarios comuns
 router.get("/getComuns/", AdminController.listarComuns);
 
+// Rota para buscar um usuario por ID
+router.get("/:id", AdminController.buscarUserPorId);
+
 module.exports = router;

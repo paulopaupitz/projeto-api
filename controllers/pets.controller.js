@@ -81,17 +81,43 @@ exports.criarPet = (req, res) => {
  * @swagger
  * /pets:
  *   get:
- *     summary: Listar todos os pets.
+ *     summary: Listar todos os pets com paginação.
  *     tags:
  *       - Pets
+ *     parameters:
+ *       - name: limite
+ *         in: query
+ *         description: "Número de registros a serem retornados (valores possíveis: 5, 10, 30)."
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           enum: [5, 10, 30]
+ *       - name: pagina
+ *         in: query
+ *         description: "Número da página de resultados (inicia em 1)."
+ *         required: true
+ *         schema:
+ *           type: integer
  *     responses:
  *       200:
- *         description: Sucesso
+ *         description: "Sucesso."
  */
-// Controlador para listar todos os pets
+// Controlador para listar todos os pets com paginação
 exports.listarPets = (req, res) => {
-  const pets = carregarPets();
-  res.status(200).json(pets);
+  const pets = carregarPets(); // Carrega a lista de pets
+  const { limite, pagina } = req.query; // Extrai os parâmetros de paginação
+
+  // Valida os parâmetros limite e página
+  const limiteValido = [5, 10, 30].includes(parseInt(limite, 10))
+    ? parseInt(limite, 10)
+    : 5;
+  const paginaValida = Math.max(parseInt(pagina, 10) || 1, 1);
+
+  // Calcula a posição inicial e retorna os registros paginados
+  const inicio = (paginaValida - 1) * limiteValido;
+  const petsPaginados = pets.slice(inicio, inicio + limiteValido);
+
+  res.status(200).json(petsPaginados); // Retorna os dados paginados
 };
 
 /**

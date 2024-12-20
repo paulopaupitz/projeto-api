@@ -212,51 +212,158 @@ exports.deletarUser = (req, res) => {
  * @swagger
  * /admin/getAllUsers:
  *   get:
- *     summary: Listar todos os usuarios.
+ *     summary: Listar todos os usuários com paginação.
  *     tags:
  *       - Admin
+ *     parameters:
+ *       - name: limite
+ *         in: query
+ *         description: "Número de registros a serem retornados (valores possíveis: 5, 10, 30)."
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           enum: [5, 10, 30]
+ *       - name: pagina
+ *         in: query
+ *         description: "Número da página de resultados (inicia em 1)."
+ *         required: true
+ *         schema:
+ *           type: integer
  *     responses:
  *       200:
  *         description: Sucesso
  */
-// Controlador para listar todos os usuarios
 exports.listarAllUsers = (req, res) => {
-  const users = carregarUsers();
-  res.status(200).json(users);
+  const users = carregarUsers(); // Carrega todos os usuários
+  const { limite, pagina } = req.query;
+
+  // Valida limite e página
+  const limiteValido = [5, 10, 30].includes(parseInt(limite, 10))
+    ? parseInt(limite, 10)
+    : 5;
+  const paginaValida = Math.max(parseInt(pagina, 10) || 1, 1);
+
+  // Paginação
+  const inicio = (paginaValida - 1) * limiteValido;
+  const paginatedUsers = users.slice(inicio, inicio + limiteValido);
+
+  res.status(200).json(paginatedUsers);
 };
 
 /**
  * @swagger
  * /admin/getAdmins:
  *   get:
- *     summary: Listar todos os usuarios administradores.
+ *     summary: Listar todos os usuários administradores com paginação.
  *     tags:
  *       - Admin
+ *     parameters:
+ *       - name: limite
+ *         in: query
+ *         description: "Número de registros a serem retornados (valores possíveis: 5, 10, 30)."
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           enum: [5, 10, 30]
+ *       - name: pagina
+ *         in: query
+ *         description: "Número da página de resultados (inicia em 1)."
+ *         required: true
+ *         schema:
+ *           type: integer
  *     responses:
  *       200:
  *         description: Sucesso
  */
-// Controlador para listar todos os usuários administradores
 exports.listarAdmins = (req, res) => {
   const users = carregarUsers(); // Carrega todos os usuários
-  const admins = users.filter((user) => user.admin === true); // Filtra apenas os administradores
-  res.status(200).json(admins); // Retorna os administradores
+  const { limite, pagina } = req.query;
+
+  const admins = users.filter((user) => user.admin === true); // Filtra apenas administradores
+
+  // Valida limite e página
+  const limiteValido = [5, 10, 30].includes(parseInt(limite, 10))
+    ? parseInt(limite, 10)
+    : 5;
+  const paginaValida = Math.max(parseInt(pagina, 10) || 1, 1);
+
+  // Paginação
+  const inicio = (paginaValida - 1) * limiteValido;
+  const paginatedAdmins = admins.slice(inicio, inicio + limiteValido);
+
+  res.status(200).json(paginatedAdmins);
 };
 
 /**
  * @swagger
  * /admin/getComuns:
  *   get:
- *     summary: Listar todos os usuarios comuns.
+ *     summary: Listar todos os usuários comuns com paginação.
  *     tags:
  *       - Admin
+ *     parameters:
+ *       - name: limite
+ *         in: query
+ *         description: "Número de registros a serem retornados (valores possíveis: 5, 10, 30)."
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           enum: [5, 10, 30]
+ *       - name: pagina
+ *         in: query
+ *         description: "Número da página de resultados (inicia em 1)."
+ *         required: true
+ *         schema:
+ *           type: integer
  *     responses:
  *       200:
  *         description: Sucesso
  */
-// Controlador para listar todos os usuários comuns
 exports.listarComuns = (req, res) => {
   const users = carregarUsers(); // Carrega todos os usuários
-  const admins = users.filter((user) => user.admin === false); // Filtra apenas os comuns
-  res.status(200).json(admins); // Retorna os comuns
+  const { limite, pagina } = req.query;
+
+  const comuns = users.filter((user) => user.admin === false); // Filtra apenas usuários comuns
+
+  // Valida limite e página
+  const limiteValido = [5, 10, 30].includes(parseInt(limite, 10))
+    ? parseInt(limite, 10)
+    : 5;
+  const paginaValida = Math.max(parseInt(pagina, 10) || 1, 1);
+
+  // Paginação
+  const inicio = (paginaValida - 1) * limiteValido;
+  const paginatedComuns = comuns.slice(inicio, inicio + limiteValido);
+
+  res.status(200).json(paginatedComuns);
+};
+
+/**
+ * @swagger
+ * /admin/{id}:
+ *   get:
+ *     summary: Buscar um usuario pelo ID
+ *     tags:
+ *       - Admin
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID do usuario a ser buscado
+ *         schema:
+ *           type: int
+ *     responses:
+ *       200:
+ *         description: Sucesso
+ *       404:
+ *         description: Usuario não encontrado
+ */
+// Controlador para buscar um usuario por ID
+exports.buscarUserPorId = (req, res) => {
+  const users = carregarUsers();
+  const user = users.find((p) => p.id === parseInt(req.params.id));
+  if (!user) {
+    return res.status(404).json({ mensagem: "Usuario não encontrado" });
+  }
+  res.status(200).json(user);
 };
