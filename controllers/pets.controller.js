@@ -138,6 +138,29 @@ exports.buscarPetPorId = (req, res) => {
  *         description: ID do pet para ser atualizado
  *         schema:
  *           type: int
+ *     requestBody:  # Descreve o corpo da requisição
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               nome:
+ *                 type: string
+ *                 description: Nome do Pet
+ *                 example: "Lulu"
+ *               especie:
+ *                 type: string
+ *                 description: Especie do pet.
+ *                 example: "Cachorro"
+ *               idade:
+ *                 type: integer
+ *                 description: Idade do pet
+ *                 example: 3
+ *               donoId:
+ *                 type: integer
+ *                 description: ID do dono.
+ *                 example: 123
  *     responses:
  *       200:
  *         description: Sucesso

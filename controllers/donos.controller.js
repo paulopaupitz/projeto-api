@@ -137,6 +137,29 @@ exports.buscarDonoPorId = (req, res) => {
  *         description: ID do dono para ser atualizado
  *         schema:
  *           type: int
+ *     requestBody:  # Descreve o corpo da requisição
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               id:
+ *                 type: integer
+ *                 description: ID do dono (opcional).
+ *                 example: 1
+ *               nome:
+ *                 type: string
+ *                 description: Nome do dono.
+ *                 example: "João Silva"
+ *               telefone:
+ *                 type: string
+ *                 description: Telefone do dono.
+ *                 example: "12345-6789"
+ *               endereco:
+ *                 type: string
+ *                 description: Endereço do dono.
+ *                 example: "Rua Exemplo, 123"
  *     responses:
  *       200:
  *         description: Sucesso

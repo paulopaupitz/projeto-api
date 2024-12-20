@@ -14,7 +14,7 @@ app.use(express.json());
 // Configura as rotas
 app.use("/donos", donoRoutes); // Rotas para donos
 app.use("/pets", petRoutes); // Rotas para pets
-app.use("/admin", authenticateAdmin, adminRoutes); //ademirs
+app.use("/admin", authenticateAdmin, adminRoutes); //admins
 
 // Configurações do Swagger
 const swaggerOptions = {
