@@ -1,13 +1,17 @@
 require("dotenv").config(); // Carrega as variáveis do .env
 const express = require("express");
+const bodyParser = require("body-parser");
+
 const swaggerUi = require("swagger-ui-express");
 const swaggerJsDoc = require("swagger-jsdoc");
+
 const app = express();
 
 // Importa os arquivos de rotas específicos
 const donoRoutes = require("./routes/donos.routes");
 const petRoutes = require("./routes/pets.routes");
 const adminRoutes = require("./routes/admin.routes");
+const authRoutes = require("./routes/auth.routes");
 const authenticateAdmin = require("./middlewares/authenticateAdmin");
 
 app.use(express.json());
@@ -15,6 +19,7 @@ app.use(express.json());
 app.use("/donos", donoRoutes); // Rotas para donos
 app.use("/pets", petRoutes); // Rotas para pets
 app.use("/admin", authenticateAdmin, adminRoutes); //admins
+app.use("/auth", authRoutes); //auth
 
 // Configurações do Swagger
 const swaggerOptions = {
