@@ -1,58 +1,87 @@
-# Projeto Web Back-end
+# Petshop API
 
-# API REST
+Projeto realizado pelos alunos Maria Clara Fadel e Paulo Paupitz para disciplina de Programação Web Back Ende na UTFPR-CP
 
-O projeto web contemplado pela disciplina visa permitir que os alunos apliquem os conceitos e temas abordados em aula. O domínio do sistema a ser desenvolvido é de livre escolha de cada aluno, desde que atenda aos requisitos definidos a seguir. O projeto pode contemplar um trabalho de outra disciplina, o início de um trabalho de TCC ou algo pessoal, e pode ser desenvolvido preferencialmente em duplas (opcionalmente de modo individual). O projeto se trata da construção de uma API REST, com persistência em arquivos e tratamento de exceções. O sistema deve atender aos seguintes requisitos:
+## Pré-requisitos
 
-## Tecnologias
+Antes de começar, certifique-se de ter instalado:
 
-Deverão ser empregados as seguintes tecnologias na construção do projeto:
+- Node.js (versão LTS recomendada)
+- npm ou yarn para gerenciar pacotes.
 
-- **Framework**: será utilizado o framework Express, juntamente com os pacotes apresentados em sala de aula. A utilização de alguma ferramenta adicional deverá ser consultada, sob penalidade de invalidação do trabalho.
+## Instalação e Inicialização
 
-- **Persistência**: a persistência dos dados deverá ser realizada em arquivos no formato JSON. Será necessário gerenciar um arquivo para cada coleção/modelo.
+1. Clone este repositório:
+   ```bash
+   git clone https://github.com/paulopaupitz/projeto-api.git
+   cd petshop-api
+   npm install
+   npm start
+   ```
 
-- **Funcionalidades**: todas as funcionalidades deverão ser implementadas em formato de API REST, não sendo necessário o desenvolvimento de uma interface. Portanto, os testes deverão ser realizados utilizando uma ferramenta específica para esta finalidade, como Nodemon, Insomnia, Talend, etc.
+O servidor estará rodando em http://localhost:3000
 
-## Usuários e sistema de autenticação
+## Documentação da API
 
-Os seguintes requisitos deverão ser implementados em relação ao gerenciamento e controle de usuários:
+A documentação da API está disponível via Swagger. Após iniciar o servidor, acesse:
 
-1. O sistema deverá possuir uma rota que permita o cadastro de usuários. A rota deve receber os dados pessoais e as credenciais (usuário e senha) para autenticação na API.
-2. O sistema deverá possuir um (ou mais) usuários administradores que possuem privilégios específicos, como alterar e excluir outros usuários e criar outros administradores. A instalação do sistema deverá criar um usuário administrador por padrão na aplicação.
-3. Deverá haver uma rota para que os administradores possam criar outros administradores.
-4. Deverá haver uma rota para que os administradores possam excluir um usuário não administrador.
-5. A rota de login deverá receber o usuário e senha e gerar um token JWT que permitirá acesso às rotas protegidas da API.
-6. Um usuário poderá alterar seus dados pessoais por meio de uma rota específica. Os usuários comuns não poderão alterar dados de outros usuários, todavia os administradores poderão.
+http://localhost:3000/docs
 
-## Sistema CRUD
+Lá, você encontrará detalhes sobre todas as rotas disponíveis, os parâmetros necessários e os exemplos de respostas.
 
-Como requisito principal, o sistema deve permitir a realização de dois cadastros (além dos usuários) com operações de CRUD completas, tal que estes itens apresentem entre si algum relacionamento, conforme a livre escolha de cada projeto. Obrigatoriamente, as operações de inserção, alteração e exclusão devem ser restritas para o usuário autenticado no sistema (que possua um token válido). A restrição do acesso para as operações de listar e buscar pelo identificador único é de livre escolha do desenvolvedor, conforme o tema proposto.
+## Testando a API
 
-É necessário realizar a validação adequada dos dados fornecidos pelo usuário e gerar mensagens de erros personalizadas conforme o erro obtido. As mensagens de erros e sucessos deverão ser enviadas juntamente com as respostas. Os métodos HTTP GET, POST, PUT e DELETE devem ser empregados segundo a operação a ser executada.
+Recomenda-se usar uma ferramenta como Postman ou Insomnia para testar os endpoints. Configure os métodos HTTP, cabeçalhos e corpo conforme especificado na documentação do Swagger.
 
-Os métodos de listar deverão implementar a paginação dos dados, de tal forma que eles devam receber dois parâmetros: **_limite_** e **_página_**. O atributo **_limite_** define quantos objetos devem ser retornados (os valores possíveis deverão ser 5, 10 e 30) na consulta. O atributo **_página_** define o ponto em que começa o retorno. Por exemplo, limite=5 e página=1 retorna os 5 primeiros registros; limite=5 e página=3 ignora os 10 primeiros registros e retorna do 11º ao 15º registro.
+## Usuários Padrão
 
-## Lógica de negócio, instalador e documentação
+Aqui estão os usuários padrão disponíveis no sistema para fins de teste:
 
-Deverá ser implementada alguma operação especial de livre escolha do aluno ou dupla (disponível por uma ou mais rotas), implementando uma lógica de negócio que pode envolver inserção/alteração no banco de dados, geração de consultas elaboradas e/ou algum processamento dos dados, sejam eles recebidos por parâmetros ou do próprio banco de dados.
+```
+[
+  {
+    "id": 1734661799034,
+    "username": "usuario",
+    "password": "123456",
+    "admin": false
+  },
+  {
+    "id": 1734662241929,
+    "username": "user",
+    "password": "707070",
+    "admin": false
+  },
+  {
+    "id": 1734662778079,
+    "username": "username",
+    "password": "password",
+    "admin": true
+  },
+  {
+    "id": 1734662811633,
+    "username": "admin",
+    "password": "admin",
+    "admin": true
+  }
+]
+```
 
-Além disso, deverá ser criada uma rota **GET /install/** que cria um usuário administrador no sistema.
+## Regras de Negócio
 
-Deverá ser criada uma rota **GET /docs** contendo a documentação gerada pela ferramenta Swagger.
+1. Admissão de Pets:
 
-Por fim, deverá ser adotada uma estratégia de tratamento de erros, com utilização de middleware de erros e objetos de erros personalizados.
+- Pets só podem ser admitidos se o dono não tiver pendências financeiras.
+- Caso o dono tenha pendências, o sistema retorna uma mensagem informando o valor das pendências.
 
-## Prazo de entrega
+2. Retirada de Pets:
 
-A ser definido posterior à finalização da greve.
+- Para retirar um pet, o dono deve pagar parte ou todas as pendências financeiras.
+  -O status do pet é atualizado para indicar que ele não está mais no petshop.
 
-## Considerações finais
+3. Quitação de Pendências:
 
-- Trabalhos similares ou plágio da internet serão zerados (se constatado alta similaridade com outros códigos), portanto, evite copiar códigos ou seguir à risca tutoriais/vídeo-aulas/chat-gpt.
-- O código deverá estar disponível em um repositório GIT, os commits devem ser incrementais. Será considerado um percentual da nota para este requisito.
-- Deverá ser utilizado um arquivo (.env) com as configurações do projeto (pesquise sobre dotenv para mais detalhes).
-- A organização da arquitetura do projeto e definição das rotas é de livre escolha e também será um critério avaliado, portanto, mantenha o código organizado e comentado.
-- Não utilizar pacotes e ferramentas não utilizados durante a aula sem o conhecimento e ciência prévia do professor.
-- As demais dúvidas e questões que porventura surjam serão resolvidas em comum acordo entre alunos e professores, sendo a palavra final do professor. :)
+- O dono pode quitar suas pendências financeiras parcialmente ou totalmente.
 
+4. Acesso Administrativo:
+
+- Apenas usuários administradores podem acessar rotas protegidas relacionadas à administração do sistema.
