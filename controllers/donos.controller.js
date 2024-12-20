@@ -213,5 +213,5 @@ exports.deletarDono = (req, res) => {
     return res.status(404).json({ mensagem: "Dono não encontrado" });
   }
   salvarDonos(novosDonos);
-  res.status(204).send();
+  res.status(204).send("Dono deletado");
 };

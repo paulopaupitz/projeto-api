@@ -155,3 +155,34 @@ exports.atualizarUser = (req, res) => {
   salvarUsers(users);
   res.status(200).json(userAtualizado);
 };
+
+/**
+ * @swagger
+ * /donos/{id}:
+ *   delete:
+ *     summary: Deletar um usuario pelo ID
+ *     tags:
+ *       - Admin
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID do usuario para ser deletado
+ *         schema:
+ *           type: int
+ *     responses:
+ *       204:
+ *         description: Usuario deletado
+ *       404:
+ *         description: Usuario não encontrado
+ */
+// Controlador para deletar um dono
+exports.deletarUser = (req, res) => {
+  const user = carregarUsers();
+  const novosUsers = user.filter((d) => d.id !== parseInt(req.params.id));
+  if (novosUsers.length === user.length) {
+    return res.status(404).json({ mensagem: "Usuario não encontrado" });
+  }
+  salvarUsers(novosUsers);
+  res.status(204).json({ mensagem: "Usuario deletado" });
+};

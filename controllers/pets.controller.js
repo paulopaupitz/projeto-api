@@ -214,5 +214,5 @@ exports.deletarPet = (req, res) => {
     return res.status(404).json({ mensagem: "Pet não encontrado" });
   }
   salvarPets(novosPets);
-  res.status(204).send();
+  res.status(204).send("Pet deletado");
 };

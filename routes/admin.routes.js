@@ -8,6 +8,9 @@ router.post("/", AdminController.criarUser);
 // Rota para atualizar um usuario
 router.put("/:id", AdminController.atualizarUser);
 
+// Rota para deletar um usuario
+router.delete("/:id", AdminController.deletarUser);
+
 // Rota para excluir um usuário não administrador
 //router.delete("/:id", AdminController.excluirUsuario);
 
