@@ -23,7 +23,7 @@ const salvarUsers = (dados) => {
 
 /**
  * @swagger
- * /admin/createAdmin":
+ * /admin/":
  *   post:
  *     summary: Criar um novo usuario
  *     tags:
@@ -211,6 +211,61 @@ exports.atualizarMyUser = (req, res) => {
   salvarUsers(users);
 
   res.status(200).json(userAtualizado);
+};
+
+/**
+ * @swagger
+ * /admin/makeAdmin/{id}:
+ *   put:
+ *     summary: Tornar um usuário administrador pelo ID
+ *     tags:
+ *       - Admin
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID do usuário a ser tornado administrador
+ *         schema:
+ *           type: int
+ *     responses:
+ *       200:
+ *         description: Usuário atualizado com sucesso
+ *       404:
+ *         description: Usuário não encontrado
+ *       403:
+ *         description: Permissão negada
+ */
+exports.tornarAdmin = (req, res) => {
+  // Obtém o ID do usuário a ser tornado admin da URL
+  const userId = parseInt(req.params.id);
+
+  // Verifica se o usuário logado tem permissão para executar essa ação
+  if (!req.user.isAdmin) {
+    return res.status(403).json({
+      mensagem:
+        "Permissão negada. Apenas administradores podem realizar esta ação.",
+    });
+  }
+
+  // Carrega os usuários do banco de dados ou fonte
+  const users = carregarUsers();
+
+  // Busca o usuário pelo ID
+  const index = users.findIndex((user) => user.id === userId);
+  if (index === -1) {
+    return res.status(404).json({ mensagem: "Usuário não encontrado." });
+  }
+
+  // Torna o usuário administrador
+  users[index].isAdmin = true;
+
+  // Salva as alterações
+  salvarUsers(users);
+
+  res.status(200).json({
+    mensagem: "Usuário atualizado com sucesso.",
+    usuario: users[index],
+  });
 };
 
 /**

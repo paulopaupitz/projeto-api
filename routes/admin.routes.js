@@ -15,6 +15,14 @@ router.put(
   AdminController.atualizarUserById
 );
 
+// Rota para tornar um usuario admin
+router.put(
+  "/makeAdmin/:id",
+  authenticateToken,
+  isAdmin,
+  AdminController.tornarAdmin
+);
+
 // Rota para atualizar meu usuario
 router.put(
   "/updateMyUser/",
