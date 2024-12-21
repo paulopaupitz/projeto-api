@@ -1,6 +1,6 @@
 class Admin {
   constructor(username, password, admin) {
-    this.id = null; // O ID será atribuído pelo controlador ao salvar
+    this.id = null;
     this.username = username;
     this.password = password;
     this.admin = admin;

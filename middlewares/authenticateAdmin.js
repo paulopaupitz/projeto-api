@@ -1,14 +1,13 @@
-require("dotenv").config();
-
-const authenticateAdmin = (req, res, next) => {
-  const token = req.headers["authorization"]; //pega o token do cabeçalho Authorization
-  if (token === process.env.ADMIN_TOKEN) {
-    next();
-  } else {
-    res
-      .status(403)
-      .send("Acesso negado: Apenas administradores podem acessar esta rota.");
+// Middleware para verificar se o usuário é administrador
+function isAdmin(req, res, next) {
+  // Verifica se o usuário autenticado é administrador
+  if (!req.user || !req.user.admin) {
+    return res.status(403).json({
+      mensagem:
+        "Acesso negado. Somente administradores podem acessar esta rota.",
+    });
   }
-};
+  next(); // Permite o acesso se for administrador
+}
 
-module.exports = authenticateAdmin;
+module.exports = isAdmin;

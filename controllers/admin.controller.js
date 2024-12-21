@@ -104,7 +104,7 @@ exports.criarUser = (req, res) => {
 
 /**
  * @swagger
- * /admin/{id}:
+ * /admin/updateUser/{id}:
  *   put:
  *     summary: Atualizar um usuario pelo ID
  *     tags:
@@ -140,7 +140,7 @@ exports.criarUser = (req, res) => {
  *         description: Erro
  */
 // Controlador para atualizar um usuario
-exports.atualizarUser = (req, res) => {
+exports.atualizarUserById = (req, res) => {
   const users = carregarUsers();
   const index = users.findIndex((d) => d.id === parseInt(req.params.id));
   if (index === -1) {
@@ -153,6 +153,63 @@ exports.atualizarUser = (req, res) => {
   const userAtualizado = { ...users[index], ...req.body };
   users[index] = userAtualizado;
   salvarUsers(users);
+  res.status(200).json(userAtualizado);
+};
+
+/**
+ * @swagger
+ * /admin/updateMyUser:
+ *   put:
+ *     summary: Atualizar o próprio usuário logado
+ *     tags:
+ *       - Admin
+ *     requestBody:  # Descreve o corpo da requisição
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *                 description: Nome do Usuario
+ *                 example: "user"
+ *               password:
+ *                 type: string
+ *                 description: Senha do Usuario
+ *                 example: "senha"
+ *     responses:
+ *       200:
+ *         description: Sucesso
+ *       400:
+ *         description: Dados inválidos
+ */
+exports.atualizarMyUser = (req, res) => {
+  // Obtém o ID do usuário logado a partir do token (inserido pelo middleware authenticateToken)
+  const userId = req.user.id;
+
+  // Carrega os usuários do banco de dados ou fonte
+  const users = carregarUsers();
+
+  // Busca o usuário logado
+  const index = users.findIndex((d) => d.id === userId);
+  if (index === -1) {
+    return res.status(404).json({ mensagem: "Usuário não encontrado" });
+  }
+
+  // Valida os dados enviados no corpo da requisição
+  const validacao = AdminModel.validarDados(req.body);
+  if (!validacao.valido) {
+    return res.status(400).json({ mensagem: validacao.mensagem });
+  }
+
+  // Atualiza os dados do usuário
+  const userAtualizado = { ...users[index], ...req.body };
+  users[index] = userAtualizado;
+
+  // Salva as alterações
+  salvarUsers(users);
+
   res.status(200).json(userAtualizado);
 };
 

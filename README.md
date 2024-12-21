@@ -1,6 +1,6 @@
 # Petshop API
 
-Projeto realizado pelos alunos Maria Clara Fadel e Paulo Paupitz para disciplina de Programação Web Back Ende na UTFPR-CP
+Projeto realizado pelos alunos Maria Clara Fadel e Paulo Paupitz para disciplina de Programação Web Back End na UTFPR-CP
 
 ## Pré-requisitos
 
